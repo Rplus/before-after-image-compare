@@ -1,0 +1,60 @@
+.comparebox .img-box-r, .comparebox .img-box-l, .comparebox .img-box-r:after, .comparebox .img-box-l:after, .comparebox {
+  width: 300px;
+  height: 150px; }
+
+.comparebox .img-box-r, .comparebox .img-box-l {
+  position: absolute;
+  overflow: hidden;
+  -moz-transform: skewX(44deg);
+  -o-transform: skewX(44deg);
+  -webkit-transform: skewX(44deg);
+  -ms-transform: skewX(44deg);
+  transform: skewX(44deg);
+  -moz-transform-origin: 0 50%;
+  -o-transform-origin: 0 50%;
+  -webkit-transform-origin: 0 50%;
+  -ms-transform-origin: 0 50%;
+  transform-origin: 0; }
+
+.comparebox .img-box-r:after, .comparebox .img-box-l:after {
+  content: '';
+  position: absolute;
+  background-repeat: no-repeat;
+  -moz-transform: skewX(-44deg);
+  -o-transform: skewX(-44deg);
+  -webkit-transform: skewX(-44deg);
+  -ms-transform: skewX(-44deg);
+  transform: skewX(-44deg);
+  -moz-background-size: 300px 150px;
+  -o-background-size: 300px 150px;
+  -webkit-background-size: 300px 150px;
+  -ms-background-size: 300px 150px;
+  background-size: 300px; }
+
+.comparebox {
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  cursor: col-resize;
+  background-color: rgba(255, 0, 0, 0.15); }
+  .comparebox .img-box-r {
+    background-color: rgba(255, 0, 0, 0.1); }
+    .comparebox .img-box-r:after {
+      background-image: url("./images/Black-Small.png"); }
+  .comparebox .img-box-l {
+    background-color: rgba(255, 0, 0, 0.3);
+    width: 150px; }
+    .comparebox .img-box-l:after {
+      background-image: url("./images/White-Small.png"); }
+  .comparebox span {
+    position: absolute;
+    height: 150px;
+    width: 10px;
+    margin-left: -5px;
+    -moz-transform: skewX(44deg);
+    -o-transform: skewX(44deg);
+    -webkit-transform: skewX(44deg);
+    -ms-transform: skewX(44deg);
+    transform: skewX(44deg);
+    background-color: rgba(255, 0, 0, 0.3);
+    left: 150px; }

@@ -1,0 +1,112 @@
+// .compare > .img-box-r + img-box-l
+
+    // configs:
+    $imgs: "./images/Black-Small.png"
+           "./images/White-Small.png";
+    $boxW: 300px;
+    $boxH: 150px;
+    $ctrlW: 10px;
+    $compDeg: 44;
+
+    // color
+    $img-box-bgc: rgba(red, .1) rgba(red, .3);
+    $ctrl-bgc: rgba(red, .3);
+
+
+    $compDeg_s: #{$compDeg % 45}deg;
+
+    @mixin prefix($prop, $val, $val2:null) {
+        @each $browser in -moz-, -o-, -webkit-, -ms- {
+          #{$browser}#{$prop}: $val $val2;
+        }
+        #{$prop}: $val;
+    }
+
+    @mixin skewX($val) {
+        @include prefix( transform, skewX($val) );
+    }
+
+    @mixin transform-origin($valX, $valY) {
+        @include prefix( transform-origin, $valX, $valY );
+    }
+
+    @mixin background-size($valX, $valY) {
+        @include prefix( background-size, $valX, $valY );
+    }
+
+    %box2D {
+        width: $boxW;
+        height: $boxH;
+    }
+
+    %imgbox {
+        @extend %box2D;
+        position: absolute;
+        overflow: hidden;
+
+        @if $compDeg != 0 {
+            @include skewX($compDeg_s);
+            @include transform-origin(0, 50%);
+        }
+    }
+
+    %img {
+        @extend %box2D;
+        content: '';
+        position: absolute;
+        background-repeat: no-repeat;
+
+        @if $compDeg != 0 {
+            @include skewX(-$compDeg_s);
+        }
+
+        @include background-size( $boxW, $boxH );
+    }
+
+.comparebox {
+    @extend %box2D;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    cursor: col-resize;
+    background-color: rgba(red, .15); // @debug
+
+    .img-box-r {
+        @extend %imgbox;
+        background-color: nth($img-box-bgc, 1);
+        &:after {
+            @extend %img;
+            background-image: url(nth($imgs, 1));
+        }
+    }
+
+    .img-box-l {
+        @extend %imgbox;
+        background-color: nth($img-box-bgc, 2);
+        &:after {
+            @extend %img;
+            background-image: url(nth($imgs, 2));
+        }
+
+        width: $boxW / 2; // @init
+    }
+
+    span {
+        position: absolute;
+        height: $boxH;
+
+        @if $ctrlW != 0 {
+            width: $ctrlW;
+            margin-left: -$ctrlW / 2;
+        }
+
+        @if $compDeg != 0 {
+            @include skewX($compDeg_s);
+        }
+
+        background-color: $ctrl-bgc; // @debug
+
+        left: $boxW / 2; // @init
+    }
+
+}
