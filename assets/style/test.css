@@ -40,12 +40,12 @@
   .comparebox .img-box-r {
     background-color: rgba(255, 0, 0, 0.1); }
     .comparebox .img-box-r:after {
-      background-image: url("./images/Black-Small.png"); }
+      background-image: url("../images/Black-Small.png"); }
   .comparebox .img-box-l {
     background-color: rgba(255, 0, 0, 0.3);
     width: 150px; }
     .comparebox .img-box-l:after {
-      background-image: url("./images/White-Small.png"); }
+      background-image: url("../images/White-Small.png"); }
   .comparebox span {
     position: absolute;
     height: 150px;

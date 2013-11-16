@@ -5,7 +5,7 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 files: {
-                    './assets/test.css': './assets/test.scss'
+                    './assets/style/test.css': './assets/style/test.scss'
                 }
             }
         },
@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 
         watch: {
             sass: {
-                files: ['./assets/*.scss'],
+                files: ['./assets/style/*.scss'],
                 tasks: ['sass'],
                 options: {
                     livereload: 8000
