@@ -1,69 +1,205 @@
-// .compare > .img-box-r + img-box-l
-
     // configs:
+    $class: "comparebox";
     $imgs: "../images/Black-Small.png"
            "../images/White-Small.png";
     $boxW: 300px;
     $boxH: 150px;
     $ctrlW: 10px;
-    $compDeg: 44;
+    // $compDeg: 44;
 
     // color
     $img-box-bgc: rgba(red, .1) rgba(red, .3);
     $ctrl-bgc: rgba(red, .3);
 
+body, figure {
+    margin: 0;
+}
 
-    $compDeg_s: #{$compDeg % 45}deg;
+// group style
+    // $compDeg_s: #{$compDeg % 45}deg;
 
-    @mixin prefix($prop, $val, $val2:null) {
-        @each $browser in -moz-, -o-, -webkit-, -ms- {
-          #{$browser}#{$prop}: $val $val2;
-        }
-        #{$prop}: $val;
-    }
+    // @mixin prefix($prop, $val, $val2:null) {
+    //     @each $browser in -moz-, -o-, -webkit-, -ms- {
+    //       #{$browser}#{$prop}: $val $val2;
+    //     }
+    //     #{$prop}: $val;
+    // }
 
-    @mixin skewX($val) {
-        @include prefix( transform, skewX($val) );
-    }
+    // @mixin skewX($val) {
+    //     @include prefix( transform, skewX($val) );
+    // }
 
-    @mixin transform-origin($valX, $valY) {
-        @include prefix( transform-origin, $valX, $valY );
-    }
+    // @mixin transform-origin($valX, $valY) {
+    //     @include prefix( transform-origin, $valX, $valY );
+    // }
 
-    @mixin background-size($valX, $valY) {
-        @include prefix( background-size, $valX, $valY );
-    }
+    // @mixin background-size($valX, $valY) {
+    //     @include prefix( background-size, $valX, $valY );
+    // }
 
     %box2D {
         width: $boxW;
         height: $boxH;
     }
 
-    %imgbox {
+    %box {
         @extend %box2D;
         position: absolute;
         overflow: hidden;
 
-        @if $compDeg != 0 {
-            @include skewX($compDeg_s);
-            @include transform-origin(0, 50%);
+        // @if $compDeg != 0 {
+        //     @include skewX($compDeg_s);
+        //     @include transform-origin(0, 50%);
+        // }
+
+        figure {
+            @extend %box2D;
+            position: absolute;
+            img {
+            }
         }
     }
 
     %img {
-        @extend %box2D;
         content: '';
         position: absolute;
         background-repeat: no-repeat;
 
-        @if $compDeg != 0 {
-            @include skewX(-$compDeg_s);
-        }
+        // @if $compDeg != 0 {
+        //     @include skewX(-$compDeg_s);
+        // }
 
-        @include background-size( $boxW, $boxH );
+        // @include background-size( $boxW, $boxH );
     }
 
-.comparebox {
+    %pos-right-bottom {
+        bottom: 0;
+        right: 0;
+        top: auto; // IE8
+        left: auto; // IE8
+    }
+    %pos-left-top {
+        top: 0;
+        left: 0;
+        bottom: auto; // IE8
+        right: auto; // IE8
+    }
+
+    // ctrl bar
+    %ctrl {
+        position: absolute;
+        transition: background-color .5s;
+    }
+
+
+.#{$class} {
+    // common style: nojs + js
+    @extend %box2D;
+    position: relative;
+    margin: 10px 20px;
+    overflow: hidden;
+
+    figure {
+        @extend %box2D;
+        position: absolute;
+        overflow: hidden;
+        &:first-child, // IE8
+        &:nth-of-type(1) {
+            @extend %pos-right-bottom;
+
+            img {
+                @extend %pos-right-bottom;
+            }
+        }
+        &, // IE8
+        &:nth-of-type(2) {
+            @extend %pos-left-top;
+            img {
+                @extend %pos-left-top;
+            }
+        }
+    }
+
+    img {
+        @extend %box2D;
+        position: absolute;
+    }
+
+    &:hover {
+        span {
+            background-color: $ctrl-bgc;
+        }
+    }
+
+
+    // for no-js: hover to show another image
+    .no-js & {
+        // IE8 don't support :nth-of-type
+        figure {
+            display: none;
+            &:first-child {
+                display: block;
+            }
+        }
+        &:hover figure {
+            display: block;
+        }
+    }
+
+    // for debug
+    background-color: #ccc;
+}
+
+
+.#{$class}-h {
+    figure {
+        &:first-child, // IE8
+        &:nth-of-type(1) {
+            width: 220px; // debug
+        }
+
+        &, // IE8
+        &:nth-of-type(2) {
+            width: 80px; // debug
+        }
+    }
+    span {
+        @extend %ctrl;
+        width: $ctrlW;
+        height: $boxH;
+        margin-left: -$ctrlW /2;
+
+        left: 80 - $ctrlW / 2; //debug
+    }
+}
+.#{$class}-v {
+    figure {
+        &:first-child, // IE8
+        &:nth-of-type(1) {
+            height: 70px; // debug
+        }
+
+        &, // IE8
+        &:nth-of-type(2) {
+            height: 80px; // debug
+        }
+    }
+    span {
+        @extend %ctrl;
+        width: $boxW;
+        height: $ctrlW;
+        margin-top: -$ctrlW /2;
+
+        top: 80 - $ctrlW / 2; // debug
+    }
+}
+
+// .compare > .img-box-r + img-box-l
+
+
+
+
+/* .comparebox {
     @extend %box2D;
     position: relative;
     margin: 0 auto;
@@ -109,4 +245,4 @@
         left: $boxW / 2; // @init
     }
 
-}
+} */

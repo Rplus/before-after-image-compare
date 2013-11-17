@@ -1,60 +1,109 @@
-.comparebox .img-box-r, .comparebox .img-box-l, .comparebox .img-box-r:after, .comparebox .img-box-l:after, .comparebox {
+body, figure {
+  margin: 0; }
+
+.comparebox, .comparebox figure, .comparebox img {
   width: 300px;
   height: 150px; }
 
-.comparebox .img-box-r, .comparebox .img-box-l {
-  position: absolute;
-  overflow: hidden;
-  -moz-transform: skewX(44deg);
-  -o-transform: skewX(44deg);
-  -webkit-transform: skewX(44deg);
-  -ms-transform: skewX(44deg);
-  transform: skewX(44deg);
-  -moz-transform-origin: 0 50%;
-  -o-transform-origin: 0 50%;
-  -webkit-transform-origin: 0 50%;
-  -ms-transform-origin: 0 50%;
-  transform-origin: 0; }
+.comparebox figure:first-child, .comparebox figure:nth-of-type(1), .comparebox figure:first-child img, .comparebox figure:nth-of-type(1) img {
+  bottom: 0;
+  right: 0;
+  top: auto;
+  left: auto; }
 
-.comparebox .img-box-r:after, .comparebox .img-box-l:after {
-  content: '';
+.comparebox figure, .comparebox figure:nth-of-type(2), .comparebox figure img, .comparebox figure:nth-of-type(2) img {
+  top: 0;
+  left: 0;
+  bottom: auto;
+  right: auto; }
+
+.comparebox-h span, .comparebox-v span {
   position: absolute;
-  background-repeat: no-repeat;
-  -moz-transform: skewX(-44deg);
-  -o-transform: skewX(-44deg);
-  -webkit-transform: skewX(-44deg);
-  -ms-transform: skewX(-44deg);
-  transform: skewX(-44deg);
-  -moz-background-size: 300px 150px;
-  -o-background-size: 300px 150px;
-  -webkit-background-size: 300px 150px;
-  -ms-background-size: 300px 150px;
-  background-size: 300px; }
+  transition: background-color .5s; }
 
 .comparebox {
   position: relative;
-  margin: 0 auto;
+  margin: 10px 20px;
   overflow: hidden;
-  cursor: col-resize;
-  background-color: rgba(255, 0, 0, 0.15); }
-  .comparebox .img-box-r {
-    background-color: rgba(255, 0, 0, 0.1); }
-    .comparebox .img-box-r:after {
-      background-image: url("../images/Black-Small.png"); }
-  .comparebox .img-box-l {
-    background-color: rgba(255, 0, 0, 0.3);
-    width: 150px; }
-    .comparebox .img-box-l:after {
-      background-image: url("../images/White-Small.png"); }
-  .comparebox span {
+  background-color: #ccc; }
+  .comparebox figure {
     position: absolute;
-    height: 150px;
-    width: 10px;
-    margin-left: -5px;
-    -moz-transform: skewX(44deg);
-    -o-transform: skewX(44deg);
-    -webkit-transform: skewX(44deg);
-    -ms-transform: skewX(44deg);
-    transform: skewX(44deg);
-    background-color: rgba(255, 0, 0, 0.3);
-    left: 150px; }
+    overflow: hidden; }
+  .comparebox img {
+    position: absolute; }
+  .comparebox:hover span {
+    background-color: rgba(255, 0, 0, 0.3); }
+  .no-js .comparebox figure {
+    display: none; }
+    .no-js .comparebox figure:first-child {
+      display: block; }
+  .no-js .comparebox:hover figure {
+    display: block; }
+
+.comparebox-h figure:first-child, .comparebox-h figure:nth-of-type(1) {
+  width: 220px; }
+.comparebox-h figure, .comparebox-h figure:nth-of-type(2) {
+  width: 80px; }
+.comparebox-h span {
+  width: 10px;
+  height: 150px;
+  margin-left: -5px;
+  left: 75px; }
+
+.comparebox-v figure:first-child, .comparebox-v figure:nth-of-type(1) {
+  height: 70px; }
+.comparebox-v figure, .comparebox-v figure:nth-of-type(2) {
+  height: 80px; }
+.comparebox-v span {
+  width: 300px;
+  height: 10px;
+  margin-top: -5px;
+  top: 75px; }
+
+/* .comparebox {
+    @extend %box2D;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    cursor: col-resize;
+    background-color: rgba(red, .15); // @debug
+
+    .img-box-r {
+        @extend %imgbox;
+        background-color: nth($img-box-bgc, 1);
+        &:after {
+            @extend %img;
+            background-image: url(nth($imgs, 1));
+        }
+    }
+
+    .img-box-l {
+        @extend %imgbox;
+        background-color: nth($img-box-bgc, 2);
+        &:after {
+            @extend %img;
+            background-image: url(nth($imgs, 2));
+        }
+
+        width: $boxW / 2; // @init
+    }
+
+    span {
+        position: absolute;
+        height: $boxH;
+
+        @if $ctrlW != 0 {
+            width: $ctrlW;
+            margin-left: -$ctrlW / 2;
+        }
+
+        @if $compDeg != 0 {
+            @include skewX($compDeg_s);
+        }
+
+        background-color: $ctrl-bgc; // @debug
+
+        left: $boxW / 2; // @init
+    }
+
+} */

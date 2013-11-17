@@ -1,15 +1,23 @@
 <!doctype html>
-<html lang="zh-tw">
+<html lang="zh-tw" class="no-js">
 <head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <link rel="stylesheet" href="./style/test.css">
+    <meta charset="UTF-8" />
+    <title>before-after-image-compare | Rplus</title>
+    <link rel="stylesheet" href="./style/test.css" />
+    <script src="./script/modernizr.custom.15725.js"></script>
 </head>
 <body>
 
-    <div class="comparebox"></div>
+    <div class="comparebox" data-dir="v">
+        <figure>
+            <img src="./images/Black-Small.png" alt="">
+        </figure>
+        <figure>
+            <img src="./images/White-Small.png" alt="">
+        </figure>
+    </div>
 
-<script src="http://127.0.0.1:8000/livereload.js"></script>
-<script src="./script/app.js"></script>
+    <script src="http://127.0.0.1:8000/livereload.js"></script>
+    <script src="./script/app.js"></script>
 </body>
 </html>
