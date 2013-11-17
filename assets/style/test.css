@@ -35,30 +35,30 @@ body, figure {
     background-color: rgba(255, 0, 0, 0.3); }
   .no-js .comparebox figure {
     display: none; }
-    .no-js .comparebox figure:first-child {
+    .no-js .comparebox figure:first-child, .no-js .comparebox figure:nth-of-type(1) {
       display: block; }
-  .no-js .comparebox:hover figure {
+  .no-js .comparebox:hover figure, .no-js .comparebox:hover figure:nth-of-type(2) {
     display: block; }
 
 .comparebox-h figure:first-child, .comparebox-h figure:nth-of-type(1) {
-  width: 220px; }
+  width: 230px; }
 .comparebox-h figure, .comparebox-h figure:nth-of-type(2) {
-  width: 80px; }
+  width: 70px; }
 .comparebox-h span {
   width: 10px;
   height: 150px;
   margin-left: -5px;
-  left: 75px; }
+  left: 65px; }
 
 .comparebox-v figure:first-child, .comparebox-v figure:nth-of-type(1) {
-  height: 70px; }
-.comparebox-v figure, .comparebox-v figure:nth-of-type(2) {
   height: 80px; }
+.comparebox-v figure, .comparebox-v figure:nth-of-type(2) {
+  height: 70px; }
 .comparebox-v span {
   width: 300px;
   height: 10px;
   margin-top: -5px;
-  top: 75px; }
+  top: 65px; }
 
 /* .comparebox {
     @extend %box2D;

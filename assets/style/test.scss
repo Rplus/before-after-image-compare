@@ -5,6 +5,7 @@
     $boxW: 300px;
     $boxH: 150px;
     $ctrlW: 10px;
+    $initPos: 70px;
     // $compDeg: 44;
 
     // color
@@ -136,18 +137,19 @@ body, figure {
     .no-js & {
         // IE8 don't support :nth-of-type
         figure {
-            display: none;
-            &:first-child {
+            display: none; // IE8
+            &:first-child, // IE8
+            &:nth-of-type(1) {
                 display: block;
             }
         }
-        &:hover figure {
+        &:hover figure, // IE8
+        &:hover figure:nth-of-type(2) {
             display: block;
         }
     }
 
-    // for debug
-    background-color: #ccc;
+    background-color: #ccc; // debug
 }
 
 
@@ -155,12 +157,12 @@ body, figure {
     figure {
         &:first-child, // IE8
         &:nth-of-type(1) {
-            width: 220px; // debug
+            width: $boxW - $initPos; // init
         }
 
         &, // IE8
         &:nth-of-type(2) {
-            width: 80px; // debug
+            width: $initPos; // init
         }
     }
     span {
@@ -169,19 +171,19 @@ body, figure {
         height: $boxH;
         margin-left: -$ctrlW /2;
 
-        left: 80 - $ctrlW / 2; //debug
+        left: $initPos - $ctrlW / 2; //init
     }
 }
 .#{$class}-v {
     figure {
         &:first-child, // IE8
         &:nth-of-type(1) {
-            height: 70px; // debug
+            height: $boxH - $initPos; // init
         }
 
         &, // IE8
         &:nth-of-type(2) {
-            height: 80px; // debug
+            height: $initPos; // init
         }
     }
     span {
@@ -190,7 +192,7 @@ body, figure {
         height: $ctrlW;
         margin-top: -$ctrlW /2;
 
-        top: 80 - $ctrlW / 2; // debug
+        top: $initPos - $ctrlW / 2; // init
     }
 }
 
