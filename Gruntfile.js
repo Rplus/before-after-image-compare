@@ -2,10 +2,11 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
-        sass: {
+        compass: {
             dist: {
-                files: {
-                    './assets/style/test.css': './assets/style/test.scss'
+                options: {
+                    sassDir: './assets/style/',
+                    cssDir: './assets/style/'
                 }
             }
         },
@@ -19,9 +20,9 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            sass: {
+            compass: {
                 files: ['./assets/style/*.scss'],
-                tasks: ['sass'],
+                tasks: ['compass'],
                 options: {
                     livereload: 8000
                 }
@@ -37,9 +38,9 @@ module.exports = function(grunt) {
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
-    grunt.registerTask('default', ['connect', 'sass']);
+    grunt.registerTask('default', ['connect', 'compass']);
 };
