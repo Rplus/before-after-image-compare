@@ -27,6 +27,10 @@ goal: support to IE8+
         以 js 偵測到支援 cssTransform 後，  
         以滑鼠位置決定(水平或垂直)分割檢視的位置
 
+    + canvas:  
+        與 SVG 作法差不多
+
+
 本來是有點想用 SVG 做斜角啦(方便多了！！)
 但是 SVG 在 IE8 就死翹翹了...
 且沒想到該怎麼處理 SVG 的 fallback
