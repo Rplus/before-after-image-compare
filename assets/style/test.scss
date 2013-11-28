@@ -1,3 +1,6 @@
+@import "compass";
+// .compare > figure * 2 > img
+
     // configs:
     $class: "comparebox";
     $imgs: "../images/Black-Small.png"
@@ -5,8 +8,8 @@
     $boxW: 300px;
     $boxH: 150px;
     $ctrlW: 10px;
-    $initPos: 70px;
-    // $compDeg: 44;
+    $initPos: $boxW * 0.25;
+    $compDeg: 20;
 
     // color
     $img-box-bgc: rgba(red, .1) rgba(red, .3);
@@ -17,27 +20,7 @@ body, figure {
 }
 
 // group style
-    // $compDeg_s: #{$compDeg % 45}deg;
-
-    // @mixin prefix($prop, $val, $val2:null) {
-    //     @each $browser in -moz-, -o-, -webkit-, -ms- {
-    //       #{$browser}#{$prop}: $val $val2;
-    //     }
-    //     #{$prop}: $val;
-    // }
-
-    // @mixin skewX($val) {
-    //     @include prefix( transform, skewX($val) );
-    // }
-
-    // @mixin transform-origin($valX, $valY) {
-    //     @include prefix( transform-origin, $valX, $valY );
-    // }
-
-    // @mixin background-size($valX, $valY) {
-    //     @include prefix( background-size, $valX, $valY );
-    // }
-
+    $compDeg_s: #{$compDeg % 45}deg;
     %box2D {
         width: $boxW;
         height: $boxH;
@@ -47,11 +30,6 @@ body, figure {
         @extend %box2D;
         position: absolute;
         overflow: hidden;
-
-        // @if $compDeg != 0 {
-        //     @include skewX($compDeg_s);
-        //     @include transform-origin(0, 50%);
-        // }
 
         figure {
             @extend %box2D;
@@ -65,12 +43,6 @@ body, figure {
         content: '';
         position: absolute;
         background-repeat: no-repeat;
-
-        // @if $compDeg != 0 {
-        //     @include skewX(-$compDeg_s);
-        // }
-
-        // @include background-size( $boxW, $boxH );
     }
 
     %pos-right-bottom {
@@ -155,6 +127,16 @@ body, figure {
 
 .#{$class}-h {
     figure {
+
+        @if $compDeg != 0 {
+            @include transform-origin(50%, 50%);
+            @include skew($compDeg_s, 0);
+            img {
+                @include transform-origin(0%, 50%);
+                @include skew(-$compDeg_s, 0);
+            }
+        }
+
         &:first-child, // IE8
         &:nth-of-type(1) {
             width: $boxW - $initPos; // init
@@ -171,11 +153,25 @@ body, figure {
         height: $boxH;
         margin-left: -$ctrlW /2;
 
-        left: $initPos - $ctrlW / 2; //init
+        left: $initPos; //init
+
+        @if $compDeg != 0 {
+            @include skew($compDeg_s, 0);
+        }
     }
 }
 .#{$class}-v {
     figure {
+
+        @if $compDeg != 0 {
+            @include transform-origin(50%, 50%);
+            @include skew(0, $compDeg_s);
+            img {
+                @include transform-origin(50%, 0%);
+                @include skew(0, -$compDeg_s);
+            }
+        }
+
         &:first-child, // IE8
         &:nth-of-type(1) {
             height: $boxH - $initPos; // init
@@ -192,59 +188,10 @@ body, figure {
         height: $ctrlW;
         margin-top: -$ctrlW /2;
 
-        top: $initPos - $ctrlW / 2; // init
-    }
-}
-
-// .compare > .img-box-r + img-box-l
-
-
-
-
-/* .comparebox {
-    @extend %box2D;
-    position: relative;
-    margin: 0 auto;
-    overflow: hidden;
-    cursor: col-resize;
-    background-color: rgba(red, .15); // @debug
-
-    .img-box-r {
-        @extend %imgbox;
-        background-color: nth($img-box-bgc, 1);
-        &:after {
-            @extend %img;
-            background-image: url(nth($imgs, 1));
-        }
-    }
-
-    .img-box-l {
-        @extend %imgbox;
-        background-color: nth($img-box-bgc, 2);
-        &:after {
-            @extend %img;
-            background-image: url(nth($imgs, 2));
-        }
-
-        width: $boxW / 2; // @init
-    }
-
-    span {
-        position: absolute;
-        height: $boxH;
-
-        @if $ctrlW != 0 {
-            width: $ctrlW;
-            margin-left: -$ctrlW / 2;
-        }
+        top: $initPos; // init
 
         @if $compDeg != 0 {
-            @include skewX($compDeg_s);
+            @include skew(0, $compDeg_s);
         }
-
-        background-color: $ctrl-bgc; // @debug
-
-        left: $boxW / 2; // @init
     }
-
-} */
+}
