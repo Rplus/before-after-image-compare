@@ -52,48 +52,45 @@ if ( !!document.createElement('canvas').getContext ) {
             };
         },
 
+        drawPath = function(xys){
+            ctx.moveTo(xys[0], xys[1]);
+            ctx.lineTo(xys[2], xys[3]);
+            ctx.lineTo(xys[4], xys[5]);
+            ctx.lineTo(xys[6], xys[7]);
+        },
+
+        can_w = _config.box2d.w,
+        can_h = _config.box2d.h,
+
+        sixPoint = [
+            0, can_h,
+            0, 0,
+            _config.initPosX - _config.deltaX, 0,
+            _config.initPosX, can_h,
+            can_w, can_h,
+            can_w, 0
+        ],
+
         drawIMG = function(pos) {
-            var
-            can_w = _config.box2d.w,
-            can_h = _config.box2d.h,
-            x1 = Math.round(pos.x + pos.y * _config.tan),
-            x2 = Math.round(pos.x - (can_h - pos.y) * _config.tan),
-            path = [
-
-                [   0, 0,
-                    0, can_h,
-                    x2, can_h,
-                    x1, 0],
-
-                [   x2, can_h,
-                    x1, 0,
-                    can_w, 0,
-                    can_w, can_h]
-            ],
-
-            drawPath = function(xys){
-                ctx.moveTo(xys[0], xys[1]);
-                ctx.lineTo(xys[2], xys[3]);
-                ctx.lineTo(xys[4], xys[5]);
-                ctx.lineTo(xys[6], xys[7]);
-            };
+            sixPoint[4] = Math.round(pos.x + pos.y * _config.tan);
+            sixPoint[6] = sixPoint[4] - _config.deltaX;
 
             ctx.clearRect(0, 0, can_w, can_h);
 
-            for (var i = path.length - 1; i >= 0; i--) {
+            for (var i = imgs.length - 1; i >= 0; i--) {
                 ctx.save();
                     ctx.beginPath();
-                    drawPath(path[i]);
+                    drawPath(  sixPoint.slice( 0 + i*4 , 8 + i*4 )   );
                     ctx.closePath();
                     ctx.clip();
-                    ctx.drawImage(imgs[i],0,0, can_w, can_h);
+                    ctx.drawImage( imgs[i], 0, 0, can_w, can_h);
                 ctx.restore();
             }
 
             ctx.save();
                 ctx.beginPath();
-                    ctx.moveTo(x1, 0);
-                    ctx.lineTo(x2, can_h);
+                    ctx.moveTo( sixPoint[4] , 0);
+                    ctx.lineTo( sixPoint[6] , can_h);
                 ctx.strokeStyle = _config.ctrlbarColor;
                 ctx.lineWidth = _config.ctrlbarWidth;
                 ctx.lineCap = 'round';
@@ -120,6 +117,7 @@ if ( !!document.createElement('canvas').getContext ) {
                 _config.deg %= 90;
             }
             _config.tan = Math.tan( _config.deg * Math.PI / 180 );
+            _config.deltaX = can_h * _config.tan;
 
                 // so strange cache...
                 var i1 = new Image(),
