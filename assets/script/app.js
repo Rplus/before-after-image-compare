@@ -1,13 +1,13 @@
 'use strict';
 
-if ( Modernizr.canvas ) {
+if ( Modernizr.svgclippaths ) {
 
     var Comparebox = function( opt_obj ) {
 
         var _config = {
                 target: document.querySelector( '.comparebox' ),
                 box2d: {w: 300, h: 150},
-                deg: -20, // +90 ~ -90: angle between with vertical line, {left: -, right: +}
+                deg: -30, // +90 ~ -90: angle between with vertical line, {left: -, right: +}
                 initPosX: 55,
                 ctrlbarColor: 'rgba(255,0,0,.3)',
                 ctrlbarWidth: 10
@@ -21,81 +21,90 @@ if ( Modernizr.canvas ) {
             }
         }
 
-        this.config = _config;
+        _config.tan = Math.tan( _config.deg * Math.PI / 180 );
+        _config.deltaX = Math.round(_config.box2d.h * _config.tan);
 
         var
-        box = _config.target,
+        box     = _config.target,
         figures = box.getElementsByTagName('figure'),
-        imgs = box.getElementsByTagName('img'),
-        ctx, can,
+        imgs    = box.getElementsByTagName('img'),
 
-        createCanvas = function () {
-            can = document.createElement('canvas');
-            can.setAttribute('width', _config.box2d.w);
-            can.setAttribute('height', _config.box2d.h);
+        svg_w = _config.box2d.w,
+        svg_h = _config.box2d.h,
 
-            can.addEventListener('mousemove', function (event) {
+        sixPoint = [
+            0, svg_h,
+            0, 0,
+            _config.initPosX, 0,
+            _config.initPosX - _config.deltaX, svg_h,
+            svg_w, svg_h,
+            svg_w, 0
+        ],
+
+        svgElem, polygon = [],
+
+        createSVG = function () {
+
+            var xmlns = 'http://www.w3.org/2000/svg',
+                xlinkns = "http://www.w3.org/1999/xlink";
+
+            svgElem = document.createElementNS(xmlns, 'svg');
+            svgElem.setAttributeNS(null, 'viewBox', '0 0 ' + svg_w + ' ' + svg_h);
+            svgElem.setAttributeNS(null, 'width', svg_w);
+            svgElem.setAttributeNS(null, 'height', svg_h);
+            svgElem.style.display = 'block';
+
+            var defs = [], pattern = [], image = [];
+
+            for (var i = imgs.length - 1; i >= 0; i--) {
+                defs[i] = document.createElementNS(xmlns, 'defs');
+                pattern[i] = document.createElementNS(xmlns, 'pattern');
+                image[i] = document.createElementNS(xmlns, 'image');
+                    pattern[i].appendChild(image[i]);
+                    defs[i].appendChild(pattern[i]);
+                    svgElem.appendChild(defs[i]);
+                pattern[i].id = 'img'+i;
+                pattern[i].setAttributeNS(null, 'patternUnits', 'userSpaceOnUse' );
+                pattern[i].setAttributeNS(null, 'width', svg_w );
+                pattern[i].setAttributeNS(null, 'height', svg_h );
+                image[i].setAttributeNS(null, 'width', svg_w );
+                image[i].setAttributeNS(null, 'height', svg_h );
+                image[i].setAttributeNS(xlinkns, 'xlink:href', imgs[i].getAttribute('src') );
+
+                polygon[i] = document.createElementNS(xmlns, 'polygon');
+                svgElem.appendChild(polygon[i]);
+                polygon[i].setAttributeNS(null, 'points',  getPoints( sixPoint.slice(i*4, 8+i*4) ) );
+                polygon[i].setAttributeNS(null, 'fill', 'url(#img'+ i+')' );
+            }
+
+            svgElem.addEventListener('mousemove', function(event) {
                 drawIMG( getMousePos(event) );
             });
 
-            ctx = can.getContext('2d');
-
-            return can;
+            return svgElem;
         },
 
         getMousePos = function(event) {
-            // will ignore border-width,
-            // if need a border, try 'outline'
+            // will ignore border-width, if need a border, try 'outline'
             return {
                 x: event.offsetX,
                 y: event.offsetY
             };
         },
 
-        drawPath = function(xys){
-            ctx.moveTo(xys[0], xys[1]);
-            ctx.lineTo(xys[2], xys[3]);
-            ctx.lineTo(xys[4], xys[5]);
-            ctx.lineTo(xys[6], xys[7]);
+        getPoints = function(point4){
+            return point4.join().replace(/(\d+,\d+),/g, '$1 ');
         },
 
-        can_w = _config.box2d.w,
-        can_h = _config.box2d.h,
-
-        sixPoint = [
-            0, can_h,
-            0, 0,
-            _config.initPosX - _config.deltaX, 0,
-            _config.initPosX, can_h,
-            can_w, can_h,
-            can_w, 0
-        ],
-
         drawIMG = function(pos) {
+
             sixPoint[4] = Math.round(pos.x + pos.y * _config.tan);
             sixPoint[6] = sixPoint[4] - _config.deltaX;
 
-            ctx.clearRect(0, 0, can_w, can_h);
-
             for (var i = imgs.length - 1; i >= 0; i--) {
-                ctx.save();
-                    ctx.beginPath();
-                    drawPath(  sixPoint.slice( 0 + i*4 , 8 + i*4 )   );
-                    ctx.closePath();
-                    ctx.clip();
-                    ctx.drawImage( imgs[i], 0, 0, can_w, can_h);
-                ctx.restore();
+                polygon[i].setAttributeNS(null, 'points', getPoints(  sixPoint.slice( 0 + i*4 , 8 + i*4 ) )  );
             }
 
-            ctx.save();
-                ctx.beginPath();
-                    ctx.moveTo( sixPoint[4] , 0);
-                    ctx.lineTo( sixPoint[6] , can_h);
-                ctx.strokeStyle = _config.ctrlbarColor;
-                ctx.lineWidth = _config.ctrlbarWidth;
-                ctx.lineCap = 'round';
-                ctx.stroke();
-            ctx.restore();
         };
 
         this.init = function() {
@@ -103,34 +112,11 @@ if ( Modernizr.canvas ) {
                 figures[i].style.display = 'none';
             }
 
-            box.appendChild( createCanvas() );
-
-            var count = 0,
-                readyDraw = function() {
-                    count += 1;
-                    if ( count === 2) {
-                        drawIMG( {x: _config.initPosX, y: 0} );
-                    }
-                };
-
-            if ( _config.deg !== 90 && _config.deg !== -90) {
-                _config.deg %= 90;
-            }
-            _config.tan = Math.tan( _config.deg * Math.PI / 180 );
-            _config.deltaX = can_h * _config.tan;
-
-                // so strange cache...
-                var i1 = new Image(),
-                    i2 = new Image();
-                i1.src = imgs[0].src;
-                i2.src = imgs[0].src;
-                i1.onload = readyDraw;
-                i2.onload = readyDraw;
-
-            imgs[0].onload = readyDraw;
-            imgs[1].onload = readyDraw;
+            box.appendChild ( createSVG() );
 
         };
+
+        this.config = _config;
 
     };
 
