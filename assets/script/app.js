@@ -150,8 +150,7 @@ if ( Modernizr.canvas ) {
         }
 
         var
-        box = document.querySelector(_config._class),
-        box_w = box.offsetWidth,
+        box = _config.target,
 
         imgBoxs = box.getElementsByTagName('figure'),
         ctrlbar,
@@ -163,25 +162,28 @@ if ( Modernizr.canvas ) {
                 hw: 'height',
                 osXY: 'clientY',
                 tl: 'top',
-                box2d: 'offsetTop'
+                boxBC: box.offsetTop,
+                ahw: box.offsetHeight
             },
             h: {
                 hw: 'width',
                 osXY: 'clientX',
                 tl: 'left',
-                box2d: 'offsetLeft'
+                boxBC: box.offsetLeft,
+                ahw: box.offsetWidth
             }
         },
 
         splitIMG = function(event) {
-            var pos = event[choise[dir].osXY] - box[choise[dir].box2d];
+            var _opt = choise[dir],
+                pos = event[_opt.osXY] - _opt.boxBC;
 
-                // left image
-                imgBoxs[1].style[choise[dir].hw] = pos + 'px';
+            // left image
+            imgBoxs[1].style[_opt.hw] = pos + 'px';
 
-                // right image
-                imgBoxs[0].style[choise[dir].hw] = (box_w - pos) + 'px';
-                ctrlbar.style[choise[dir].tl] = pos + 'px';
+            // right image
+            imgBoxs[0].style[_opt.hw] = (_opt.ahw - pos) + 'px';
+            ctrlbar.style[_opt.tl] = pos + 'px';
         };
 
         this.init = function () {
