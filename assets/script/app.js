@@ -1,11 +1,11 @@
 'use strict';
 
-if ( !!document.createElement('canvas').getContext ) {
+if ( Modernizr.canvas ) {
 
     var Comparebox = function( opt_obj ) {
 
         var _config = {
-                _class: '.comparebox',
+                target: document.querySelector( '.comparebox' ),
                 box2d: {w: 300, h: 150},
                 deg: -20, // +90 ~ -90: angle between with vertical line, {left: -, right: +}
                 initPosX: 55,
@@ -24,7 +24,7 @@ if ( !!document.createElement('canvas').getContext ) {
         this.config = _config;
 
         var
-        box = document.querySelector( _config._class ),
+        box = _config.target,
         figures = box.getElementsByTagName('figure'),
         imgs = box.getElementsByTagName('img'),
         ctx, can,
@@ -138,7 +138,7 @@ if ( !!document.createElement('canvas').getContext ) {
 
     var Comparebox = function( opt_obj ) {
         var _config = {
-                _class: '.comparebox'
+                target: document.querySelector( '.comparebox' )
             };
 
         opt_obj =  opt_obj || {};
