@@ -65,7 +65,7 @@ body, figure {
     // ctrl bar
     %ctrl {
         position: absolute;
-        transition: background-color .5s, width .5s;
+        transition: background-color .5s, width .5s, height .5s;
         background-color: $ctrl-bgc;
     }
 

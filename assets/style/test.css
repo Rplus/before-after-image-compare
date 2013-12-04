@@ -19,7 +19,7 @@ body, figure {
 
 .comparebox-h .ctrlbar, .comparebox-v .ctrlbar {
   position: absolute;
-  transition: background-color .5s, width .5s;
+  transition: background-color .5s, width .5s, height .5s;
   background-color: rgba(255, 0, 0, 0.3); }
 
 .comparebox {
