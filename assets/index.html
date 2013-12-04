@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <title>before-after-image-compare | Rplus</title>
     <link rel="stylesheet" href="./style/test.css" />
-    <script src="./script/modernizr.custom.20359.js"></script>
 </head>
 <body>
 
@@ -17,7 +16,53 @@
         </figure>
     </div>
 
-    <script src="http://127.0.0.1:8000/livereload.js"></script>
+    <div class="comparebox" data-dir="v">
+        <figure>
+            <img src="./images/Black-Small.png" alt="">
+        </figure>
+        <figure>
+            <img src="./images/White-Small.png" alt="">
+        </figure>
+    </div>
+
+    <div class="comparebox" data-dir="v">
+        <figure>
+            <img src="./images/Black-Small.png" alt="">
+        </figure>
+        <figure>
+            <img src="./images/White-Small.png" alt="">
+        </figure>
+    </div>
+
+    <div class="comparebox" data-dir="v">
+        <figure>
+            <img src="./images/Black-Small.png" alt="">
+        </figure>
+        <figure>
+            <img src="./images/White-Small.png" alt="">
+        </figure>
+    </div>
+
     <script src="./script/app.js"></script>
+    <script>
+        var compare_1 = new Comparebox();
+            compare_1.init();
+
+        var compare_2 = new Comparebox({
+                target: document.querySelectorAll( '.comparebox' )[1],
+                // box2d: null,
+                deg: -205, // abs > 180 左右反轉
+                initPosX: 55,
+                ctrlbarColor: 'rgba(100,100,100,.3)',
+                ctrlbarWidth: 20,
+                mode: 'svg'
+            });
+            compare_2.init();
+
+        var compare_3 = new Comparebox({
+                target: document.querySelectorAll( '.comparebox' )[2],
+                initPosX: 75
+            }).init();
+    </script>
 </body>
 </html>

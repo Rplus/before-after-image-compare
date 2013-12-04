@@ -25,135 +25,55 @@ body, figure {
   right: auto;
 }
 
-/* line 62, test.scss */
-.comparebox-h span, .comparebox-v span {
+.comparebox-h .ctrlbar, .comparebox-v .ctrlbar {
   position: absolute;
-  transition: background-color .5s;
-}
+  transition: background-color .5s, width .5s, height .5s;
+  background-color: rgba(255, 0, 0, 0.3); }
 
 /* line 68, test.scss */
 .comparebox {
   position: relative;
+  overflow: hidden;
   margin: 10px 20px;
-  overflow: hidden;
-  background-color: rgba(255, 0, 0, 0.3);
-}
-/* line 75, test.scss */
-.comparebox figure {
-  position: absolute;
-  overflow: hidden;
-}
-/* line 96, test.scss */
-.comparebox img {
-  position: absolute;
-}
-/* line 102, test.scss */
-.comparebox:hover span {
-  background-color: rgba(255, 0, 0, 0.3);
-}
-/* line 111, test.scss */
-.no-js .comparebox figure {
-  display: none;
-}
-/* line 114, test.scss */
-.no-js .comparebox figure:first-child, .no-js .comparebox figure:nth-of-type(1) {
-  display: block;
-}
-/* line 119, test.scss */
-.no-js .comparebox:hover figure, .no-js .comparebox:hover figure:nth-of-type(2) {
-  display: block;
-}
+  background-color: #ccc; }
+  .comparebox figure {
+    position: absolute;
+    overflow: hidden; }
+  .comparebox img {
+    position: absolute; }
+  .comparebox:hover {
+    cursor: move; }
+  .comparebox:hover line {
+    stroke-width: 10px; }
+  .comparebox line {
+    stroke-width: 2px;
+    stroke: rgba(255, 0, 0, 0.3);
+    transition: all .5s; }
+  .comparebox figure {
+    display: none; }
+    .comparebox figure:first-child {
+      display: block; }
+  .comparebox:hover figure {
+    display: block; }
 
-/* line 129, test.scss */
 .comparebox-h figure {
-  -webkit-transform-origin: 50% 50%;
-  -moz-transform-origin: 50% 50%;
-  -ms-transform-origin: 50% 50%;
-  -o-transform-origin: 50% 50%;
-  transform-origin: 50% 50%;
-  -webkit-transform: skew(20deg, 0);
-  -moz-transform: skew(20deg, 0);
-  -ms-transform: skew(20deg, 0);
-  -o-transform: skew(20deg, 0);
-  transform: skew(20deg, 0);
-}
-/* line 134, test.scss */
-.comparebox-h figure img {
-  -webkit-transform-origin: 0% 50%;
-  -moz-transform-origin: 0% 50%;
-  -ms-transform-origin: 0% 50%;
-  -o-transform-origin: 0% 50%;
-  transform-origin: 0% 50%;
-  -webkit-transform: skew(-20deg, 0);
-  -moz-transform: skew(-20deg, 0);
-  -ms-transform: skew(-20deg, 0);
-  -o-transform: skew(-20deg, 0);
-  transform: skew(-20deg, 0);
-}
-/* line 141, test.scss */
-.comparebox-h figure:first-child, .comparebox-h figure:nth-of-type(1) {
-  width: 225px;
-}
-/* line 146, test.scss */
-.comparebox-h figure, .comparebox-h figure:nth-of-type(2) {
-  width: 75px;
-}
-/* line 150, test.scss */
-.comparebox-h span {
-  width: 10px;
+  display: block; }
+.comparebox-h .ctrlbar {
+  width: 2px;
   height: 150px;
-  margin-left: -5px;
-  left: 75px;
-  -webkit-transform: skew(20deg, 0);
-  -moz-transform: skew(20deg, 0);
-  -ms-transform: skew(20deg, 0);
-  -o-transform: skew(20deg, 0);
-  transform: skew(20deg, 0);
-}
+  margin-left: -1px; }
+.comparebox-h:hover .ctrlbar {
+  background-color: rgba(255, 0, 0, 0.3);
+  width: 10px;
+  margin-left: -5px; }
 
-/* line 164, test.scss */
 .comparebox-v figure {
-  -webkit-transform-origin: 50% 50%;
-  -moz-transform-origin: 50% 50%;
-  -ms-transform-origin: 50% 50%;
-  -o-transform-origin: 50% 50%;
-  transform-origin: 50% 50%;
-  -webkit-transform: skew(0, 20deg);
-  -moz-transform: skew(0, 20deg);
-  -ms-transform: skew(0, 20deg);
-  -o-transform: skew(0, 20deg);
-  transform: skew(0, 20deg);
-}
-/* line 169, test.scss */
-.comparebox-v figure img {
-  -webkit-transform-origin: 50% 0%;
-  -moz-transform-origin: 50% 0%;
-  -ms-transform-origin: 50% 0%;
-  -o-transform-origin: 50% 0%;
-  transform-origin: 50% 0%;
-  -webkit-transform: skew(0, -20deg);
-  -moz-transform: skew(0, -20deg);
-  -ms-transform: skew(0, -20deg);
-  -o-transform: skew(0, -20deg);
-  transform: skew(0, -20deg);
-}
-/* line 176, test.scss */
-.comparebox-v figure:first-child, .comparebox-v figure:nth-of-type(1) {
-  height: 75px;
-}
-/* line 181, test.scss */
-.comparebox-v figure, .comparebox-v figure:nth-of-type(2) {
-  height: 75px;
-}
-/* line 185, test.scss */
-.comparebox-v span {
+  display: block; }
+.comparebox-v .ctrlbar {
   width: 300px;
+  height: 2px;
+  margin-top: -1px; }
+.comparebox-v:hover .ctrlbar {
+  background-color: rgba(255, 0, 0, 0.3);
   height: 10px;
-  margin-top: -5px;
-  top: 75px;
-  -webkit-transform: skew(0, 20deg);
-  -moz-transform: skew(0, 20deg);
-  -ms-transform: skew(0, 20deg);
-  -o-transform: skew(0, 20deg);
-  transform: skew(0, 20deg);
-}
+  margin-top: -5px; }
