@@ -17,93 +17,54 @@ body, figure {
   bottom: auto;
   right: auto; }
 
-.comparebox-h span, .comparebox-v span {
+.comparebox-h .ctrlbar, .comparebox-v .ctrlbar {
   position: absolute;
-  transition: background-color .5s; }
+  transition: background-color .5s, width .5s;
+  background-color: rgba(255, 0, 0, 0.3); }
 
 .comparebox {
   position: relative;
-  margin: 10px 20px;
   overflow: hidden;
+  margin: 10px 20px;
   background-color: #ccc; }
   .comparebox figure {
     position: absolute;
     overflow: hidden; }
   .comparebox img {
     position: absolute; }
-  .comparebox:hover span {
-    background-color: rgba(255, 0, 0, 0.3); }
-  .no-js .comparebox figure {
+  .comparebox:hover {
+    cursor: move; }
+  .comparebox:hover line {
+    stroke-width: 10px; }
+  .comparebox line {
+    stroke-width: 2px;
+    stroke: rgba(255, 0, 0, 0.3);
+    transition: all .5s; }
+  .comparebox figure {
     display: none; }
-    .no-js .comparebox figure:first-child {
+    .comparebox figure:first-child {
       display: block; }
-  .no-js .comparebox:hover figure {
+  .comparebox:hover figure {
     display: block; }
 
-.comparebox-h figure:first-child, .comparebox-h figure:nth-of-type(1) {
-  width: 220px; }
-.comparebox-h figure, .comparebox-h figure:nth-of-type(2) {
-  width: 80px; }
-.comparebox-h span {
-  width: 10px;
+.comparebox-h figure {
+  display: block; }
+.comparebox-h .ctrlbar {
+  width: 2px;
   height: 150px;
-  margin-left: -5px;
-  left: 75px; }
+  margin-left: -1px; }
+.comparebox-h:hover .ctrlbar {
+  background-color: rgba(255, 0, 0, 0.3);
+  width: 10px;
+  margin-left: -5px; }
 
-.comparebox-v figure:first-child, .comparebox-v figure:nth-of-type(1) {
-  height: 70px; }
-.comparebox-v figure, .comparebox-v figure:nth-of-type(2) {
-  height: 80px; }
-.comparebox-v span {
+.comparebox-v figure {
+  display: block; }
+.comparebox-v .ctrlbar {
   width: 300px;
+  height: 2px;
+  margin-top: -1px; }
+.comparebox-v:hover .ctrlbar {
+  background-color: rgba(255, 0, 0, 0.3);
   height: 10px;
-  margin-top: -5px;
-  top: 75px; }
-
-/* .comparebox {
-    @extend %box2D;
-    position: relative;
-    margin: 0 auto;
-    overflow: hidden;
-    cursor: col-resize;
-    background-color: rgba(red, .15); // @debug
-
-    .img-box-r {
-        @extend %imgbox;
-        background-color: nth($img-box-bgc, 1);
-        &:after {
-            @extend %img;
-            background-image: url(nth($imgs, 1));
-        }
-    }
-
-    .img-box-l {
-        @extend %imgbox;
-        background-color: nth($img-box-bgc, 2);
-        &:after {
-            @extend %img;
-            background-image: url(nth($imgs, 2));
-        }
-
-        width: $boxW / 2; // @init
-    }
-
-    span {
-        position: absolute;
-        height: $boxH;
-
-        @if $ctrlW != 0 {
-            width: $ctrlW;
-            margin-left: -$ctrlW / 2;
-        }
-
-        @if $compDeg != 0 {
-            @include skewX($compDeg_s);
-        }
-
-        background-color: $ctrl-bgc; // @debug
-
-        left: $boxW / 2; // @init
-    }
-
-} */
+  margin-top: -5px; }
