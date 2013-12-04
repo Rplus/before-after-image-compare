@@ -1,112 +1,171 @@
-// .compare > .img-box-r + img-box-l
-
     // configs:
+    $isSVG: true;
+
+    $supportIE8: true;
+
+    $class: "comparebox";
     $imgs: "../images/Black-Small.png"
            "../images/White-Small.png";
     $boxW: 300px;
     $boxH: 150px;
-    $ctrlW: 10px;
-    $compDeg: 44;
+    $ctrlW: 2px;
+    $ctrlW_hover: 10px;
 
     // color
     $img-box-bgc: rgba(red, .1) rgba(red, .3);
     $ctrl-bgc: rgba(red, .3);
+    $ctrl-bgc_hover: $ctrl-bgc;
 
+body, figure {
+    margin: 0;
+}
 
-    $compDeg_s: #{$compDeg % 45}deg;
-
-    @mixin prefix($prop, $val, $val2:null) {
-        @each $browser in -moz-, -o-, -webkit-, -ms- {
-          #{$browser}#{$prop}: $val $val2;
-        }
-        #{$prop}: $val;
-    }
-
-    @mixin skewX($val) {
-        @include prefix( transform, skewX($val) );
-    }
-
-    @mixin transform-origin($valX, $valY) {
-        @include prefix( transform-origin, $valX, $valY );
-    }
-
-    @mixin background-size($valX, $valY) {
-        @include prefix( background-size, $valX, $valY );
-    }
-
+// group style
     %box2D {
         width: $boxW;
         height: $boxH;
     }
 
-    %imgbox {
+    %box {
         @extend %box2D;
         position: absolute;
         overflow: hidden;
 
-        @if $compDeg != 0 {
-            @include skewX($compDeg_s);
-            @include transform-origin(0, 50%);
+        figure {
+            @extend %box2D;
+            position: absolute;
+            img {
+            }
         }
     }
 
     %img {
-        @extend %box2D;
         content: '';
         position: absolute;
         background-repeat: no-repeat;
-
-        @if $compDeg != 0 {
-            @include skewX(-$compDeg_s);
-        }
-
-        @include background-size( $boxW, $boxH );
     }
 
-.comparebox {
+    %pos-right-bottom {
+        bottom: 0;
+        right: 0;
+        @if $supportIE8 {
+            top: auto; // IE8
+            left: auto; // IE8
+        }
+    }
+    %pos-left-top {
+        top: 0;
+        left: 0;
+        @if $supportIE8 {
+            bottom: auto; // IE8
+            right: auto; // IE8
+        }
+    }
+
+    // ctrl bar
+    %ctrl {
+        position: absolute;
+        transition: background-color .5s, width .5s, height .5s;
+        background-color: $ctrl-bgc;
+    }
+
+
+// common style: nojs + js
+.#{$class} {
     @extend %box2D;
     position: relative;
-    margin: 0 auto;
     overflow: hidden;
-    cursor: col-resize;
-    background-color: rgba(red, .15); // @debug
-
-    .img-box-r {
-        @extend %imgbox;
-        background-color: nth($img-box-bgc, 1);
-        &:after {
-            @extend %img;
-            background-image: url(nth($imgs, 1));
-        }
-    }
-
-    .img-box-l {
-        @extend %imgbox;
-        background-color: nth($img-box-bgc, 2);
-        &:after {
-            @extend %img;
-            background-image: url(nth($imgs, 2));
-        }
-
-        width: $boxW / 2; // @init
-    }
-
-    span {
+    margin: 10px 20px; // custom
+    background-color: #ccc; // custom
+    figure {
+        @extend %box2D;
         position: absolute;
-        height: $boxH;
-
-        @if $ctrlW != 0 {
-            width: $ctrlW;
-            margin-left: -$ctrlW / 2;
+        overflow: hidden;
+        &:first-child, // IE8
+        &:nth-of-type(1) {
+            @extend %pos-right-bottom;
+            img {
+                @extend %pos-right-bottom;
+            }
         }
-
-        @if $compDeg != 0 {
-            @include skewX($compDeg_s);
+        &, // IE8
+        &:nth-of-type(2) {
+            @extend %pos-left-top;
+            img {
+                @extend %pos-left-top;
+            }
         }
-
-        background-color: $ctrl-bgc; // @debug
-
-        left: $boxW / 2; // @init
     }
 
+    img {
+        @extend %box2D;
+        position: absolute;
+    }
+
+    &:hover {
+        cursor: move;
+    }
+
+    @if $isSVG {
+        &:hover {
+            line {
+                @if $ctrlW != $ctrlW_hover {
+                    stroke-width: $ctrlW_hover;
+                }
+                @if $ctrl-bgc_hover != $ctrl-bgc {
+                    stroke: $ctrl-bgc_hover;
+                }
+            }
+        }
+        line {
+            stroke-width: $ctrlW;
+            stroke: $ctrl-bgc;
+            transition: all .5s;
+        }
+    }
+
+    // for no-js & non-init comparebox: hover to show another image
+    // IE8 don't support :nth-of-type
+    figure {
+        display: none;
+        &:first-child {
+            display: block;
+        }
+    }
+    &:hover figure {
+        display: block;
+    }
+}
+
+.#{$class}-h {
+    figure {
+        display: block;
+    }
+    .ctrlbar {
+        @extend %ctrl;
+        width: $ctrlW;
+        height: $boxH;
+        margin-left: -$ctrlW / 2;
+    }
+    &:hover .ctrlbar {
+        background-color: $ctrl-bgc_hover;
+        width: $ctrlW_hover;
+        margin-left: -$ctrlW_hover / 2;
+    }
+}
+.#{$class}-v {
+    figure {
+        display: block;
+    }
+    .ctrlbar {
+        @extend %ctrl;
+        width: $boxW;
+        height: $ctrlW;
+        margin-top: -$ctrlW /2;
+    }
+    &:hover .ctrlbar {
+        background-color: $ctrl-bgc_hover;
+        height: $ctrlW_hover;
+        margin-top: -$ctrlW_hover / 2;
+    }
 }
