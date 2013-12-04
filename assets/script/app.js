@@ -2,7 +2,11 @@
 
 var Comparebox = function( opt_obj ) {
 
-    var _config = {
+    (function(html) {
+        html.className = html.className.replace(/\bno-js\b/, 'js');
+    })(document.documentElement);
+
+    var _config = { // default settings
             target: document.querySelector( '.comparebox' ),
             box2d: null,
             deg: 0, // +90 ~ -90: angle between with vertical line, {left: -, right: +}
@@ -14,6 +18,7 @@ var Comparebox = function( opt_obj ) {
 
     opt_obj =  opt_obj || {};
 
+    // extend settings
     for ( var i in _config ) {
         if ( opt_obj[i] !== undefined ) {
             _config[i] = opt_obj[i];
@@ -28,10 +33,21 @@ var Comparebox = function( opt_obj ) {
     var box = _config.target,
         figures = box.getElementsByTagName('figure'),
         imgs    = box.getElementsByTagName('img'),
-        box_w = _config.box2d.w,
-        box_h = _config.box2d.h;
 
-    if ( _config.mode === 'svg' && (_config.deg % 90) !== 0 && Modernizr.svgclippaths ) {
+        box_w = _config.box2d.w,
+        box_h = _config.box2d.h,
+
+        xmlns = 'http://www.w3.org/2000/svg',
+        xlinkns = 'http://www.w3.org/1999/xlink',
+
+        isSupportSVG = (function(){
+            // ref https://github.com/Modernizr/Modernizr/blob/master/feature-detects/svg.js
+            return document.createElementNS && !!document.createElementNS(xmlns, 'svg').createSVGRect;
+        })(),
+
+        getMousePos;
+
+    if ( _config.mode === 'svg' && (_config.deg % 90) !== 0 && isSupportSVG ) {
 
         // svg time
 
@@ -39,6 +55,7 @@ var Comparebox = function( opt_obj ) {
         _config.deltaX = Math.round(_config.box2d.h * _config.tan);
 
         var
+        // 在大角度時，溢出過多的部份不曉得會不會有效能衝擊...
         sixPoint = [
             0, box_h,
             0, 0,
@@ -48,12 +65,9 @@ var Comparebox = function( opt_obj ) {
             box_w, 0
         ],
 
-        svgElem, polygon = [], line,
+        svgElem, polygon = [], line, createSVG, getPoints, drawIMG;
 
         createSVG = function () {
-
-            var xmlns = 'http://www.w3.org/2000/svg',
-                xlinkns = 'http://www.w3.org/1999/xlink';
 
             svgElem = document.createElementNS(xmlns, 'svg');
             svgElem.setAttributeNS(null, 'viewBox', '0 0 ' + box_w + ' ' + box_h);
@@ -103,7 +117,7 @@ var Comparebox = function( opt_obj ) {
             });
 
             return svgElem;
-        },
+        };
 
         getMousePos = function(event) {
             // will ignore border-width, if need a border, try 'outline'
@@ -111,11 +125,11 @@ var Comparebox = function( opt_obj ) {
                 x: event.offsetX,
                 y: event.offsetY
             };
-        },
+        };
 
         getPoints = function(points){
             return points.join().replace(/(\d+,\d+),/g, '$1 ');
-        },
+        };
 
         drawIMG = function(pos) {
 
@@ -146,14 +160,17 @@ var Comparebox = function( opt_obj ) {
 
         // normal js
 
-        var dir, ctrlbar, choise, _opt, getMousePos, splitIMG;
+        var dir, ctrlbar, choise, _opt, splitIMG;
 
-        if ( _config.deg % 180 === 0 && opt_obj.deg != null) {
-            dir = 'h';
-        } else if ( _config.deg % 90 === 0 && opt_obj.deg != null) {
-            dir = 'v';
+        // has deg : %180 => h
+        //           %90  => v
+        //           %??  => get dir || h
+        // non deg : get dir || h
+
+        if ( opt_obj.deg % 90 === 0 ) {
+            dir = ( opt_obj.deg % 180 === 0 ) ? 'h' : 'v';
         } else {
-            dir = box.getAttribute('data-dir');
+            dir = box.getAttribute('data-dir') || 'h';
         }
 
         choise = {
@@ -177,7 +194,7 @@ var Comparebox = function( opt_obj ) {
         getMousePos = function(event) {
             // pos
             return event[_opt.osXY] - _opt.boxBC;
-        },
+        };
 
         splitIMG = function(pos) {
             figures[1].style[_opt.hw] = pos + 'px';
@@ -186,8 +203,6 @@ var Comparebox = function( opt_obj ) {
         };
 
         this.init = function () {
-
-            var anti_dir = (dir === 'v') ? 'h' : 'v';
 
             box.className += ' comparebox-' + dir;
             box.innerHTML += '<span class="ctrlbar"></span>';
