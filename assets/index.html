@@ -8,6 +8,15 @@
 </head>
 <body>
 
+    <div class="comparebox" data-dir="h">
+        <figure>
+            <img src="./images/Black-Small.png" alt="">
+        </figure>
+        <figure>
+            <img src="./images/White-Small.png" alt="">
+        </figure>
+    </div>
+
     <div class="comparebox" data-dir="v">
         <figure>
             <img src="./images/Black-Small.png" alt="">
@@ -17,7 +26,43 @@
         </figure>
     </div>
 
-    <script src="http://127.0.0.1:8000/livereload.js"></script>
+    <div class="comparebox" data-dir="v">
+        <figure>
+            <img src="./images/Black-Small.png" alt="">
+        </figure>
+        <figure>
+            <img src="./images/White-Small.png" alt="">
+        </figure>
+    </div>
+
+    <div class="comparebox" data-dir="v">
+        <figure>
+            <img src="./images/Black-Small.png" alt="">
+        </figure>
+        <figure>
+            <img src="./images/White-Small.png" alt="">
+        </figure>
+    </div>
+
     <script src="./script/app.js"></script>
+    <script>
+        var compare_1 = new Comparebox();
+            compare_1.init();
+
+        var compare_2 = new Comparebox({
+                target: document.querySelectorAll( '.comparebox' )[1],
+                // box2d: null,
+                deg: -25, // +90 ~ -90: angle between with vertical line, {left: -, right: +}
+                initPosX: 55,
+                ctrlbarColor: 'rgba(100,100,100,.3)',
+                ctrlbarWidth: 20,
+                mode: 'svg'  // 'normal' | 'svg'
+            });
+            compare_2.init();
+
+        var compare_3 = new Comparebox({
+                target: document.querySelectorAll( '.comparebox' )[2]
+            }).init();
+    </script>
 </body>
 </html>
