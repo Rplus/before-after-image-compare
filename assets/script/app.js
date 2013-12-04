@@ -148,9 +148,9 @@ var Comparebox = function( opt_obj ) {
 
         var dir, ctrlbar, choise, _opt, getMousePos, splitIMG;
 
-        if ( _config.deg % 180 === 0 ) {
+        if ( _config.deg % 180 === 0 && opt_obj.deg != null) {
             dir = 'h';
-        } else if ( _config.deg % 90 === 0) {
+        } else if ( _config.deg % 90 === 0 && opt_obj.deg != null) {
             dir = 'v';
         } else {
             dir = box.getAttribute('data-dir');
