@@ -20,16 +20,10 @@ module.exports = function(grunt) {
 
         watch: {
             sass: {
-                files: ['./assets/style/*.scss'],
+                files: ['./assets/style/*.scss', './assets/**.*', './assets/script/*.js'],
                 tasks: ['sass'],
                 options: {
-                    livereload: 8000
-                }
-            },
-            livereload: {
-                files: ['./assets/**.*', './assets/script/*.js'],
-                options: {
-                    livereload: 8000
+                    livereload: true
                 }
             }
         }
