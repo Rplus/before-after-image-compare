@@ -122,8 +122,8 @@ var Comparebox = function( opt_obj ) {
         getMousePos = function(event) {
             // will ignore border-width, if need a border, try 'outline'
             return {
-                x: event.offsetX,
-                y: event.offsetY
+                x: event.offsetX || event.layerX || 0,
+                y: event.offsetY || event.layerY || 0
             };
         };
 
